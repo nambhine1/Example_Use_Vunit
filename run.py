@@ -1,12 +1,16 @@
 from vunit import VUnit
 
+# Create VUnit instance from command line arguments
 vu = VUnit.from_argv()
 
-
+# Add a library
 lib = vu.add_library("lib")
-lib.add_source_files([
-    "and_gate.vhdl",
-    "tb_and_gate.vhdl"
-])
 
+# Add source files
+lib.add_source_files("src/and_gate.vhdl")
+
+# Add testbench files
+lib.add_source_files("tb/tb_and_gate.vhdl")
+
+# Run VUnit
 vu.main()
