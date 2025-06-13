@@ -1,4 +1,4 @@
-name: VUnit with GHDL
+name: VUnit with GHDL (LLVM backend)
 
 on:
   push:
@@ -11,20 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - uses: actions/setup-python@v4
+    - name: Setup Python 3.11
+      uses: actions/setup-python@v4
       with:
         python-version: 3.11
 
-    - name: Install dependencies
+    - name: Install build dependencies
       run: |
         sudo apt update
-        sudo apt install -y ghdl
-        pip install vunit_hdl
+        sudo apt install -y git build-essential llvm-14 llvm-14-dev llvm-14-tools zlib1g-dev gnat
 
-    - name: Check GHDL version
-      run: ghdl --version
+    - name: Build and install GHDL with LLVM backend
+      run: |
+        git clone https://github.com/ghdl/ghdl.git
+        cd ghdl
+        ./configure --with-llvm-config=llvm-config-14
+        make
+        sudo make install
+        cd ..
+        ghdl --version
+
+    - name: Install VUnit
+      run: pip install vunit_hdl
 
     - name: Run VUnit tests
       run: python run.py
