@@ -1,0 +1,30 @@
+name: VUnit with GHDL
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  vunit-ghdl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y ghdl
+        pip install vunit_hdl
+
+    - name: Check GHDL version
+      run: ghdl --version
+
+    - name: Run VUnit tests
+      run: python run.py
