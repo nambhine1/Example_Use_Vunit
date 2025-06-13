@@ -13,6 +13,8 @@ end entity;
 architecture testbench of tb_and_gate is
   signal a, b, out_sig : std_logic;
 begin
+
+  -- Unit Under Test
   uut: entity work.and_gate
     port map (
       a => a,
@@ -20,31 +22,32 @@ begin
       y => out_sig
     );
 
-  main: process
+  -- Test process
+  main : process
   begin
     test_runner_setup(runner, runner_cfg);
 
-    -- Test case 1
-    a <= '0'; b <= '0';
-    wait for 10 ns;
-    check_equal(out_sig, '0', "Test case 1 failed");
+    if run("Zero Output") then
+      a <= '0'; b <= '0';
+      wait for 10 ns;
+      check_equal(out_sig, '0', "Test case 1a failed");
 
-    -- Test case 2
-    a <= '0'; b <= '1';
-    wait for 10 ns;
-    check_equal(out_sig, '0', "Test case 2 failed");
+      a <= '0'; b <= '1';
+      wait for 10 ns;
+      check_equal(out_sig, '0', "Test case 1b failed");
 
-    -- Test case 3
-    a <= '1'; b <= '0';
-    wait for 10 ns;
-    check_equal(out_sig, '0', "Test case 3 failed");
+      a <= '1'; b <= '0';
+      wait for 10 ns;
+      check_equal(out_sig, '0', "Test case 1c failed");
 
-    -- Test case 4
-    a <= '1'; b <= '1';
-    wait for 10 ns;
-    check_equal(out_sig, '1', "Test case 4 failed");
+    elsif run("One Output") then
+      a <= '1'; b <= '1';
+      wait for 10 ns;
+      check_equal(out_sig, '1', "Test case 2 failed");
+    end if;
 
     test_runner_cleanup(runner);
     wait;
   end process;
+
 end architecture;
