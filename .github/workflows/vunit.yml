@@ -39,3 +39,9 @@ jobs:
 
     - name: Run VUnit tests
       run: python run.py
+
+    - name: Upload VUnit test results artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: vunit-results
+        path: vunit_out/
