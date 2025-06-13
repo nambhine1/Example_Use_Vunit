@@ -25,9 +25,12 @@ Make sure you have the following installed:
 1. **Clone or download this repository**:
 
     ```bash
-    git clone <repository-url>
-    cd vunit_and_gate_full_example
+    git clone https://github.com/nambhine1/Example_Use_Vunit.git
+    cd Example_Use_Vunit
     ```
+
+    
+  
 
 2. **Install VUnit (if not already installed)**:
 
